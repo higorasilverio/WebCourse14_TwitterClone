@@ -1,3 +1,8 @@
+<?php
+	$error = isset($_GET['error']) ? $_GET['error'] : 0;
+
+?>
+
 <!DOCTYPE HTML>
 <html lang="en">
 	<head>
@@ -12,7 +17,25 @@
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 	
 		<script>
-			// javascript						
+			$(document).ready( function(){
+				//verify fields user and password correctly filled
+				$('#btn_login').click(function(){
+					var blank_field = false;
+					if ($('#field_user').val() == ''){
+						blank_field = true;
+						$('#field_user').css({'border-color': '#A94442'});
+					} else {
+						$('#field_user').css({'border-color': '#CCC'});
+					}
+					if ($('#field_password').val() == ''){
+						blank_field = true;
+						$('#field_password').css({'border-color': '#A94442'});
+					} else {
+						$('#field_password').css({'border-color': '#CCC'});
+					}
+					if (blank_field) return false;
+				});
+			});			
 		</script>
 	</head>
 
@@ -34,7 +57,7 @@
 	        <div id="navbar" class="navbar-collapse collapse">
 	          <ul class="nav navbar-nav navbar-right">
 	            <li><a href="subscribe.php">Register</a></li>
-	            <li class="">
+	            <li class="<?= $error == 1 ? 'open' : '' ?>">
 	            	<a id="login" data-target="#" href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Login</a>
 					<ul class="dropdown-menu" aria-labelledby="entrar">
 						<div class="col-md-12">
@@ -53,6 +76,11 @@
 
 								<br /><br />
 							</form>
+							<?php
+								if ($error == 1) {
+									echo '<font color="#FF0000">User/password invalid!</font>';
+								}
+							?>
 						</div>
 				  	</ul>
 	            </li>
