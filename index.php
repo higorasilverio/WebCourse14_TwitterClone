@@ -28,19 +28,19 @@
 	            <span class="icon-bar"></span>
 	            <span class="icon-bar"></span>
 	          </button>
-	          <img src="imagens/icone_twitter.png" />
+	          <img src="img/icon_twitter.png" />
 	        </div>
 	        
 	        <div id="navbar" class="navbar-collapse collapse">
 	          <ul class="nav navbar-nav navbar-right">
-	            <li><a href="inscrevase.php">Register</a></li>
+	            <li><a href="subscribe.php">Register</a></li>
 	            <li class="">
 	            	<a id="login" data-target="#" href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Login</a>
 					<ul class="dropdown-menu" aria-labelledby="entrar">
 						<div class="col-md-12">
-				    		<p>Do you have a account already?</h3>
+				    		<p>Do you have a account already?</p>
 				    		<br />
-							<form method="post" action="" id="formLogin">
+							<form method="post" action="validate_access.php" id="formLogin">
 								<div class="form-group">
 									<input type="text" class="form-control" id="field_user" name="user" placeholder="User" />
 								</div>
@@ -52,9 +52,8 @@
 								<button type="buttom" class="btn btn-primary" id="btn_login">Login</button>
 
 								<br /><br />
-								
 							</form>
-						</form>
+						</div>
 				  	</ul>
 	            </li>
 	          </ul>

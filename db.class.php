@@ -12,9 +12,9 @@
 
 		public function connectMysql(){
 			//create connection
-			$con = mysql_connect($this -> host, $this -> user, $this -> password, $this -> database);
+			$con = mysqli_connect($this -> host, $this -> user, $this -> password, $this -> database);
 			//adjust charset
-			mysli_set_charset($con, 'utf8');
+			mysqli_set_charset($con, 'utf8');
 			//check for errors
 			if(mysqli_connect_errno()){
 				echo 'Error connecting to database: '.mysqli_connect_error();
