@@ -1,3 +1,7 @@
+<?php
+	$error_user = isset($_GET['error_user']) ? $_GET['error_user'] : 0;
+	$error_email = isset($_GET['error_email']) ? $_GET['error_email'] : 0;
+?>
 <!DOCTYPE HTML>
 <html lang="en">
 	<head>
@@ -48,10 +52,20 @@
 				<form method="post" action="register_user.php" id="formRegister">
 					<div class="form-group">
 						<input type="text" class="form-control" id="user" name="user" placeholder="User" required="required">
+						<?php
+							if ($error_user) { // 1 -> true 0 -> false
+								echo '<font style="color:#FF0000">User already registered!</font>';
+							}
+						?>
 					</div>
 
 					<div class="form-group">
 						<input type="email" class="form-control" id="email" name="email" placeholder="Email" required="required">
+						<?php
+							if ($error_email) { // 1 -> true 0 -> false
+								echo '<font style="color:#FF0000">Email already registered!</font>';
+							}
+						?>
 					</div>
 					
 					<div class="form-group">
