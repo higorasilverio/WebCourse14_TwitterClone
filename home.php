@@ -16,7 +16,26 @@
 
 		<!-- bootstrap - link cdn -->
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-	
+		
+		<script type="text/javascript">
+			$(document).ready(function(){
+				//click on tweet button
+				$('#btn_tweet').click(function(){
+					if ($('#tweet_text').val().length > 0){
+						$.ajax({
+							url: 'include_tweet.php',
+							method: 'post',
+							data: $('#form_tweet').serialize(),
+							success: function(data){
+								$('#tweet_text').val('');
+								alert('Tweet included succesfully!');
+							}
+						});
+					}
+				})
+			});
+		</script>
+
 	</head>
 
 	<body>
@@ -44,27 +63,40 @@
 
 
 	    <div class="container">
-	    	
-	    	<br /><br />
-
-	    	<div class="col-md-4"></div>
-	    	<div class="col-md-4">
-	    		<?= $_SESSION['user'] ?>
-	    		<br>
-	    		<?= $_SESSION['email'] ?>
+	    	<div class="col-md-3">
+	    		<div class="panel panel-default">
+	    			<div class="panel-body">
+	    				<h4><?= $_SESSION['user'] ?></h4>
+	    				<hr>
+	    				<div class="col-md-6">
+	    					TWEETS<br> 1
+	    				</div>
+	    				<div class="col-md-6">
+	    					FOLLOWERS<br> 1
+	    				</div>
+	    			</div>
+	    		</div>
+	    	</div>
+	    	<div class="col-md-6">
+	    		<div class="panel panel-default">
+	    			<div class="panel-body">
+	    				<form id="form_tweet" class="input-group">
+	    					<input type="text" id="tweet_text" name="tweet_text" class="form-control" placeholder="What's happening now" maxlength="140">
+	    					<span class="input-group-btn">
+	    						<button class="btn btn-default" id="btn_tweet">Tweet</button>
+	    					</span>
+	    				</form>
+	    			</div>
+	    		</div>
 			</div>
-			<div class="col-md-4"></div>
-
-			<div class="clearfix"></div>
-			<br />
-			<div class="col-md-4"></div>
-			<div class="col-md-4"></div>
-			<div class="col-md-4"></div>
-
+			<div class="col-md-3">
+				<div class="panel panel-default">
+	    			<div class="panel-body">
+	    				<h4><a href="#">Search people</a></h4>
+	    			</div>
+	    		</div>
+			</div>
 		</div>
-
-
-	    </div>
 	
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 	
