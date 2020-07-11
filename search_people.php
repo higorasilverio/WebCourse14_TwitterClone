@@ -42,33 +42,48 @@
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 		
 		<script type="text/javascript">
-			$(document).ready(function(){
-				//click on tweet button
-				$('#btn_tweet').click(function(){
-					if ($('#tweet_text').val().length > 0){
+			$(document).ready( function(){
+				//click event
+				$('#btn_search_people').click( function(){
+					if($('#name_people').val().length > 0){
 						$.ajax({
-							url: 'include_tweet.php',
+							url: 'get_people.php',
 							method: 'post',
-							data: $('#form_tweet').serialize(),
-							success: function(data){
-								$('#tweet_text').val('');
-								updateTweet();
+							data: $('#form_search_people').serialize(),
+							success: function(data) {
+								$('#people').html(data);
+								$('.btn_follow').click( function(){
+									var id_user = $(this).data('id_user');
+									$('#btn_follow_'+id_user).hide();
+									$('#btn_unfollow_'+id_user).show();
+									$.ajax({
+										url: 'follow.php',
+										method: 'post',
+										data: { follow_user_id: id_user },
+										success: function(data){
+											alert('Register inserteded!');
+										}
+									});
+								});
+								$('.btn_unfollow').click( function(){
+									var id_user = $(this).data('id_user');
+									$('#btn_follow_'+id_user).show();
+									$('#btn_unfollow_'+id_user).hide();
+									$.ajax({
+										url: 'unfollow.php',
+										method: 'post',
+										data: { unfollow_user_id: id_user },
+										success: function(data){
+											alert('Register removed!');
+										}
+									});
+								});
 							}
 						});
 					}
-				})
-				function updateTweet(){
-					$.ajax({
-						url: 'get_tweet.php',
-						success: function(data) {
-							$('#tweets').html(data);
-						}
-					})
-				}
-				updateTweet();
+				});
 			});
 		</script>
-
 	</head>
 
 	<body>
@@ -88,6 +103,7 @@
 	        
 	        <div id="navbar" class="navbar-collapse collapse">
 	          <ul class="nav navbar-nav navbar-right">
+	          	<li><a href="home.php">Home</a></li>
 	            <li><a href="logoff.php">Logoff</a></li>
 	          </ul>
 	        </div><!--/.nav-collapse -->
@@ -113,22 +129,19 @@
 	    	<div class="col-md-6">
 	    		<div class="panel panel-default">
 	    			<div class="panel-body">
-	    				<form id="form_tweet" class="input-group">
-	    					<input type="text" id="tweet_text" name="tweet_text" class="form-control" placeholder="What's happening now" maxlength="140">
+	    				<form id="form_search_people" class="input-group">
+	    					<input type="text" id="name_people" name="name_people" class="form-control" placeholder="Who you want to find?" maxlength="140">
 	    					<span class="input-group-btn">
-	    						<button class="btn btn-default" id="btn_tweet">Tweet</button>
+	    						<button class="btn btn-default" id="btn_search_people">Search</button>
 	    					</span>
 	    				</form>
 	    			</div>
-	    			<div id="tweets" class="list-group">
-	    				
-	    			</div>
+	    			<div id="people" class="list-group"></div>
 	    		</div>
 			</div>
 			<div class="col-md-3">
 				<div class="panel panel-default">
 	    			<div class="panel-body">
-	    				<h4><a href="search_people.php">Search people</a></h4>
 	    			</div>
 	    		</div>
 			</div>
