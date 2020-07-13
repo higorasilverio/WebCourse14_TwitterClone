@@ -6,28 +6,29 @@
 	require_once('db.class.php');
 	$objDb = new db();
 	$link = $objDb->connectMysql();
-	$id_user = $_SESSION['user'];
-	//tweets quantity
-	$sql = " SELECT COUNT(*) AS qtt_tweets FROM tweet WHERE id_user = $id_user ";
-	$result = mysqli_query($link, $sql);
+	$id = $_SESSION['id'];
+	//--qtt tweets
+	$sql = " SELECT COUNT(*) AS qtt_tweets FROM tweet WHERE id_user = $id ";
+	$result_id = mysqli_query($link, $sql);
 	$qtt_tweets = 0;
-	if($result){
-		$register = mysqli_fetch_array($result, MYSQLI_ASSOC);
+	if($result_id){
+		$register = mysqli_fetch_array($result_id, MYSQLI_ASSOC);
 		$qtt_tweets = $register['qtt_tweets'];
 	} else {
-		echo "Error in query!";
+		echo 'Error execulting query';
 	}
-	//followers quantity
-	$sql = " SELECT COUNT(*) AS qtt_followers FROM users_followers WHERE user_id_follow = $id_user ";
-	$result = mysqli_query($link, $sql);
+	//--qtt followers
+	$sql = " SELECT COUNT(*) AS qtt_followers FROM users_followers WHERE following_id_user = $id ";
+	$result_id = mysqli_query($link, $sql);
 	$qtt_followers = 0;
-	if($result){
-		$register = mysqli_fetch_array($result, MYSQLI_ASSOC);
+	if($result_id){
+		$register = mysqli_fetch_array($result_id, MYSQLI_ASSOC);
 		$qtt_followers = $register['qtt_followers'];
 	} else {
-		echo "Error in query!";
+		echo 'Error execulting query';
 	}
 ?>
+
 <!DOCTYPE HTML>
 <html lang="en">
 	<head>
@@ -40,12 +41,12 @@
 
 		<!-- bootstrap - link cdn -->
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-		
+	
 		<script type="text/javascript">
 			$(document).ready( function(){
-				//click event
-				$('#btn_search_people').click( function(){
-					if($('#name_people').val().length > 0){
+				//associate click event
+				$('#btn_search_person').click( function(){					
+					if($('#person_name').val().length > 0){
 						$.ajax({
 							url: 'get_people.php',
 							method: 'post',
@@ -53,28 +54,34 @@
 							success: function(data) {
 								$('#people').html(data);
 								$('.btn_follow').click( function(){
-									var id_user = $(this).data('id_user');
-									$('#btn_follow_'+id_user).hide();
-									$('#btn_unfollow_'+id_user).show();
+									var id = $(this).data('id');
+
+									$('#btn_follow_'+id).hide();
+									$('#btn_unfollow_'+id).show();
+
 									$.ajax({
 										url: 'follow.php',
 										method: 'post',
-										data: { follow_user_id: id_user },
+										data: { follow_id_user: id },
 										success: function(data){
-											alert('Register inserteded!');
+											alert('Register made successfuly!');
 										}
 									});
+
 								});
+
 								$('.btn_unfollow').click( function(){
-									var id_user = $(this).data('id_user');
-									$('#btn_follow_'+id_user).show();
-									$('#btn_unfollow_'+id_user).hide();
+									var id = $(this).data('id');
+
+									$('#btn_follow_'+id).show();
+									$('#btn_unfollow_'+id).hide();
+
 									$.ajax({
 										url: 'unfollow.php',
 										method: 'post',
-										data: { unfollow_user_id: id_user },
+										data: { unfollow_id_user: id },
 										success: function(data){
-											alert('Register removed!');
+											alert('Register removal made successfuly!');
 										}
 									});
 								});
@@ -84,6 +91,7 @@
 				});
 			});
 		</script>
+
 	</head>
 
 	<body>
@@ -116,36 +124,43 @@
 	    		<div class="panel panel-default">
 	    			<div class="panel-body">
 	    				<h4><?= $_SESSION['user'] ?></h4>
-	    				<hr>
+
+	    				<hr />
 	    				<div class="col-md-6">
-	    					TWEETS<br><?= $qtt_tweets ?>
+	    					TWEETS <br /> <?= $qtt_tweets ?>
 	    				</div>
 	    				<div class="col-md-6">
-	    					FOLLOWERS<br><?= $qtt_followers ?>
+	    					FOLLOWERS <br /> <?= $qtt_followers ?>
 	    				</div>
 	    			</div>
 	    		</div>
 	    	</div>
+	    	
 	    	<div class="col-md-6">
 	    		<div class="panel panel-default">
 	    			<div class="panel-body">
 	    				<form id="form_search_people" class="input-group">
-	    					<input type="text" id="name_people" name="name_people" class="form-control" placeholder="Who you want to find?" maxlength="140">
+	    					<input type="text" id="person_name" name="person_name" class="form-control" placeholder="Who are you searching for?" maxlength="140" />
 	    					<span class="input-group-btn">
-	    						<button class="btn btn-default" id="btn_search_people">Search</button>
+	    						<button class="btn btn-default" id="btn_search_person" type="button">Search</button>
 	    					</span>
 	    				</form>
 	    			</div>
-	    			<div id="people" class="list-group"></div>
 	    		</div>
+
+	    		<div id="people" class="list-group"></div>
+
 			</div>
 			<div class="col-md-3">
 				<div class="panel panel-default">
-	    			<div class="panel-body">
-	    			</div>
-	    		</div>
+					<div class="panel-body">
+					</div>
+				</div>
 			</div>
 		</div>
+
+
+	    </div>
 	
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 	
