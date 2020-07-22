@@ -1,6 +1,6 @@
 # WebCourse14_TwitterClone
 
-This is a web page that imitates the Twitter page.
+This is a web page which reproduce the Twitter page.
 
 Inside this repository, there are instructions to create a MySQL data base for users, post, followers, and other data.
 
